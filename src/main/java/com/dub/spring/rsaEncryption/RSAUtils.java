@@ -2,9 +2,7 @@ package com.dub.spring.rsaEncryption;
 
 import java.math.BigInteger;
 
-/**
- * Utility class that implements two RSA reated methods 
- * */
+
 
 public class RSAUtils {
 	
@@ -13,28 +11,28 @@ public class RSAUtils {
 								BigInteger q,
 								BigInteger e) 
 	{
-		BigInteger p1 = p.subtract(BigInteger.ONE);
-		BigInteger q1 = q.subtract(BigInteger.ONE);
+		BigInteger pTru1 = p.subtract(BigInteger.ONE); // p - 1 
+		BigInteger qTru1 = q.subtract(BigInteger.ONE); // q - 1
 			
 		BigInteger lambda, d; 
 		
 		EuclidResult result = new EuclidResult();
-		
-		GCD(p1, q1, result);
-		
-		lambda = p1.multiply(q1).divide(result.getD());// LCM(p-1, q-1)
-	
+		//Tìm ước chung lớn nhất của e và lambda N
+		GCD(pTru1, qTru1, result);
+		//result = (p - 1) * (q - 1)
+//		lambda = pTru1.multiply(qTru1).divide(result.getD());// LCM(p-1, q-1) // bội số chung của 2 số 
+		lambda = pTru1.multiply(qTru1);
+		System.out.println(" lamda: " +lambda);
 		PrivateKey privateKey = new PrivateKey();
-		
+		// Tìm E nếu E sai thì báo lỗi
 		if (lambda.mod(e) == BigInteger.ZERO) {// invalid parameter set
 			privateKey.setStatus(PrivateKey.Status.ERROR);
 			return privateKey;
 		}
-		System.out.println("Check valid: " + lambda.mod(e));
+//		System.out.println("Check valid: " + lambda.mod(e));	
 		
 	
-		
-		// extended Euclidean algorithm
+		//Tìm ước chung lớn nhất của e và lambda N
 	    GCD(e, lambda, result);
 	    
 	    d = result.getS();
@@ -43,9 +41,10 @@ public class RSAUtils {
 		    
 	    System.out.println("Verif: " + d.multiply(e).mod(lambda));
 	    privateKey.setStatus(PrivateKey.Status.OK);
+	    System.out.println("Private KEY: " + d);
 		return privateKey;
-	} 
-		
+	}
+	//Tìm ước chung lớn nhất của a và lambda b lưu vào result
 	public static void GCD(
 						BigInteger a, 
 						BigInteger b, EuclidResult result) 

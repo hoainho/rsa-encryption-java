@@ -4,15 +4,15 @@ package com.dub.spring.rsaEncryption;
 // POJO
 public class RSAResponse {
 	
-	private Type type;	
+	private String type;	
 	private String message;
 	
 	
-	public Type getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -22,11 +22,6 @@ public class RSAResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	
-	public static enum Type {		
-		ENCRYPTED, DECRYPTED, TOOLONG
 	}
 }
 	
